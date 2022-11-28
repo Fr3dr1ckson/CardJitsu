@@ -4,14 +4,23 @@ public static class DeckActions
 {
     public static List<Card> CreateDeck()
     {
-        byte[] colors = {0, 0, 0, 0};
+        byte[] lennys = { 0, 0, 0, 0 };
         Random r = new Random();
         List<Card> deck = new List<Card>(30);
-        foreach (string element in Card.ElementList)
+        string[] elementList;
+        if (PowerShellUtils.IsCurrentProcessRunningFromPowerShellIse())
         {
-            for (byte power = 1; power < 12; power++)
+            elementList = Card.ElementListEmoji;
+        }
+        else
+        {
+            elementList = Card.ElementList;
+        }
+        foreach (string element in elementList)
+        {
+            for (byte power = 1; power < 11; power++)
             {
-                string color = Card.ColorList[Array.IndexOf(colors,colors.Min())];
+                /*string color = Card.ColorList[Array.IndexOf(colors,colors.Min())];
                 switch (color)
                 {
                     case "Red":
@@ -26,27 +35,34 @@ public static class DeckActions
                     default:
                         colors[3]++;
                         break;
+                }*/
+                string lenny = Card.lenny[Array.IndexOf(lennys, lennys.Min())];
+                switch (lenny)
+                {
+                    case "( ͡° ͜ʖ ͡°)":
+                        lennys[0]++;
+                        break;
+                    case "( ͡♥ ͜ʖ ͡♥ )":
+                        lennys[1]++;
+                        break;
+                    case "(▀̿Ĺ̯▀̿ ̿)":
+                        lennys[2]++;
+                        break;
+                    default:
+                        lennys[3]++;
+                        break;
                 }
-                deck.Add(new Card(color,power,element));
+                deck.Add(new Card("color", power, element, lenny));
+                Console.WriteLine(power);
             }
+            Console.ForegroundColor = ConsoleColor.DarkGreen;
+            Console.Write($"GreenCount:{lennys[0]},YellowCount:{lennys[1]},RedCount:{lennys[2]},BlueCount:{lennys[3]}" +
+                          "\n");
+            Console.ForegroundColor = ConsoleColor.Gray;
+            
         }
-        Console.ForegroundColor = ConsoleColor.DarkGreen;
-        Console.Write($"GreenCount:{colors[0]},YellowCount:{colors[1]},RedCount:{colors[2]},BlueCount:{colors[3]}" + "\n");
-        Console.ForegroundColor = ConsoleColor.Gray;
         return deck;
     }
-
-    public static void ShowProps(List<Card> deck)
-    {
-        int counter=0;
-        foreach (var x in deck)
-        {
-            Console.Write($"Color: {x.Color}, Power: {x.Power}, Element: {x.Element}" + "\n");
-            counter++;
-        }
-        Console.WriteLine($"CardsInDeck: {counter}");
-    }
-
     public static void Shuffle(List<Card> deck)
     {
         var random = new Random();
