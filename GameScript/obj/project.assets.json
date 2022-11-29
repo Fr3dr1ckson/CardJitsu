@@ -8,19 +8,19 @@
     "net6.0": []
   },
   "packageFolders": {
-    "C:\\Users\\User\\.nuget\\packages\\": {}
+    "C:\\Users\\onarg\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\User\\Desktop\\GameScript\\GameScript\\GameScript.csproj",
+      "projectUniqueName": "C:\\Users\\onarg\\Documents\\GitHub\\GameScript\\GameScript\\GameScript.csproj",
       "projectName": "GameScript",
-      "projectPath": "C:\\Users\\User\\Desktop\\GameScript\\GameScript\\GameScript.csproj",
-      "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\User\\Desktop\\GameScript\\GameScript\\obj\\",
+      "projectPath": "C:\\Users\\onarg\\Documents\\GitHub\\GameScript\\GameScript\\GameScript.csproj",
+      "packagesPath": "C:\\Users\\onarg\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\onarg\\Documents\\GitHub\\GameScript\\GameScript\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\onarg\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [

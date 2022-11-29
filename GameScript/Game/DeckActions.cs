@@ -7,19 +7,17 @@ public static class DeckActions
         byte[] lennys = { 0, 0, 0, 0 };
         Random r = new Random();
         List<Card> deck = new List<Card>(30);
-        string[] elementList;
-        if (PowerShellUtils.IsCurrentProcessRunningFromPowerShellIse())
-        {
-            elementList = Card.ElementListEmoji;
-        }
-        else
-        {
-            elementList = Card.ElementList;
-        }
+        string[] elementList = PowerShellUtils.IsCurrentProcessRunningFromPowerShellIse() ? Card.ElementListEmoji : Card.ElementList;
         foreach (string element in elementList)
         {
-            for (byte power = 1; power < 11; power++)
+            int[] controlpow = new int[10];
+            for (int power = 1; power < 11; power++)
             {
+                #region OldConcept
+
+                
+
+                
                 /*string color = Card.ColorList[Array.IndexOf(colors,colors.Min())];
                 switch (color)
                 {
@@ -36,6 +34,7 @@ public static class DeckActions
                         colors[3]++;
                         break;
                 }*/
+                #endregion
                 string lenny = Card.lenny[Array.IndexOf(lennys, lennys.Min())];
                 switch (lenny)
                 {
@@ -52,13 +51,10 @@ public static class DeckActions
                         lennys[3]++;
                         break;
                 }
-                deck.Add(new Card("color", power, element, lenny));
-                Console.WriteLine(power);
+                int getrand = ExtendedFunc.ControllableRandom(r, 1, 11, controlpow);
+                controlpow[power-1] = getrand;
+                deck.Add(new Card(getrand, element, lenny));
             }
-            Console.ForegroundColor = ConsoleColor.DarkGreen;
-            Console.Write($"GreenCount:{lennys[0]},YellowCount:{lennys[1]},RedCount:{lennys[2]},BlueCount:{lennys[3]}" +
-                          "\n");
-            Console.ForegroundColor = ConsoleColor.Gray;
             
         }
         return deck;
