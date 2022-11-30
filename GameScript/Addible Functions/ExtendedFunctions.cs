@@ -5,26 +5,6 @@ namespace GameScript;
 
 public static class ExtendedFunc
 {
-    public static void WriteColor(string str, params (string substring, ConsoleColor color)[] colors)
-    {
-        var words = Regex.Split(str, @"( )");
-
-        foreach (var word in words)
-        {
-            (string substring, ConsoleColor color) cl = colors.FirstOrDefault(x => x.substring.Equals("{" + word + "}"));
-            if (cl.substring != null)
-            {
-                Console.ForegroundColor = cl.color;
-                Console.Write(cl.substring.Substring(1, cl.substring.Length - 2));
-                Console.ResetColor();
-            }
-            else
-            {
-                Console.Write(word);
-            }
-        }
-    }
-
     public static int ControllableRandom(Random r, int start, int end, int[] exclude)
     {
         while (true)
@@ -45,10 +25,37 @@ public static class ExtendedFunc
     }
     public static bool HaveWinningCard(List<Card> hand, Card card)
     {
-        return hand.Any(botcard => CompareCards(card,botcard));
+        return hand.Any(botcard => CompareCards(card,botcard) && !SameCards(card,botcard));
     }
 
+    public static int UniqueLenny(List<string> lennys)
+    {
+        List<string> unilen = lennys;
+        string[] staticLenny = Card.lenny;
+        for (int i = 0; i < 4; i++)
+        {
+            byte counter = 0;
+            foreach (var obj in unilen.Where(obj => obj == staticLenny[i]))
+            {
+                counter++;
+            }
 
+            if (counter <= 1) continue;
+            for(int j = 0;j<counter-1;j++)
+            {
+                unilen.Remove(staticLenny[i]);
+            }
+        }
+        return unilen.Count;
+    }
+
+    public static List<string[]> SortedLennys(List<string[]> lennyelement)
+    {
+        List<string[]> sortedlenny = lennyelement.Where(fire => fire.Contains("Fire")).ToList();
+        sortedlenny.AddRange(lennyelement.Where(water => water.Contains("Water")));
+        sortedlenny.AddRange(lennyelement.Where(snow => snow.Contains("Snow")));
+        return sortedlenny;
+    }
     public class Program1
     {
         [DllImport("kernel32.dll", ExactSpelling = true)]

@@ -3,9 +3,9 @@ namespace GameScript;
 
 using static GameScript.GameProcesses;
 
-public class BotActions
+public static class BotActions
 {
-    public static Card BotTurn(byte difficulty,Card playercard,List<Card> usedcards,List<string> usedLennys = null, List<Card> deck = null, List<Card> hand = null )
+    public static Card BotTurn(int difficulty,Card playercard,List<Card> usedcards,List<string> usedLennys = null, List<Card> deck = null, List<Card> hand = null )
     {
         var random = new Random();
         string[] goodTurn = new string[10];
@@ -27,16 +27,16 @@ public class BotActions
                             Thread.Sleep(3000);
                             hand.Remove(botcard);
                             GetCardFromDeck(deck,hand);
-                            CardResult(botcard);
+                            CardResult(botcard,playercard);
                             return botcard;
                         }
-                        CardResult(botcard);
+                        CardResult(botcard,playercard);
                         return hand[random.Next(0, 6)];
                     }
                 }
-                foreach (var botcard in hand.Where(botcard => CompareCards(playercard, botcard)))
+                foreach (var botcard in hand.Where(botcard => CompareCards(playercard, botcard)&& !ExtendedFunc.SameCards(playercard,botcard)))
                 {
-                    CardResult(botcard);
+                    CardResult(botcard,playercard);
                     return botcard;
                 }
                 break;
@@ -48,10 +48,10 @@ public class BotActions
                         Thread.Sleep(3000);
                         hand.Remove(botcard);
                         GetCardFromDeck(deck,hand);
-                        CardResult(botcard);
+                        CardResult(botcard,playercard);
                         return botcard;
                     }
-                    CardResult(botcard);
+                    CardResult(botcard,playercard);
                     return hand[random.Next(0, 6)];
                 }
                 break;
@@ -60,7 +60,7 @@ public class BotActions
                 {
                         usedcards.Add(botcard);
                         usedLennys.Add(botcard.Lenny);
-                        CardResult(botcard);
+                        CardResult(botcard,playercard);
                         return botcard;
                 }break;
             
@@ -68,11 +68,13 @@ public class BotActions
         return hand[0];
     }
 
-    private static void CardResult(Card botcard)
+    private static void CardResult(Card botcard, Card playercard = null)
     {
         Console.WriteLine();
-        Console.ForegroundColor = ConsoleColor.Magenta;
-        Console.WriteLine($"Bot have chosen this card, maybe you still have a tiny chance: ");
+        if(!(playercard==null) && CompareCards(playercard, botcard) && !ExtendedFunc.SameCards(playercard,botcard))
+            CConsole.Write($"{"You Won!":yellow}");
+        else CConsole.Write($"{"Bot Won!":red}");
+        Console.WriteLine();
         Console.ResetColor();
         ShowCardinHand(botcard);
         Console.WriteLine();

@@ -13,28 +13,6 @@ public static class DeckActions
             int[] controlpow = new int[10];
             for (int power = 1; power < 11; power++)
             {
-                #region OldConcept
-
-                
-
-                
-                /*string color = Card.ColorList[Array.IndexOf(colors,colors.Min())];
-                switch (color)
-                {
-                    case "Red":
-                        colors[0]++;
-                        break;
-                    case "Green":
-                        colors[1]++;
-                        break;
-                    case "Blue":
-                        colors[2]++;
-                        break;
-                    default:
-                        colors[3]++;
-                        break;
-                }*/
-                #endregion
                 string lenny = Card.lenny[Array.IndexOf(lennys, lennys.Min())];
                 switch (lenny)
                 {
