@@ -1,6 +1,7 @@
 using System.Text;
+using GameScript.Useful_Functions;
 
-namespace GameScript;
+namespace GameScript.Game;
 
 public static class GameProcesses
 {
@@ -18,7 +19,8 @@ public static class GameProcesses
 
 
     public static Card PlayerTurn(List<Card> hand,
-        List<List<Card>> cardhistory, List<string[]> lennyelementP1, List<string[]> lennyelementP2, int diff, out int diff2)
+        List<List<Card>> cardhistory, List<string[]> lennyelementP1, List<string[]> lennyelementP2, int diff,
+        out int diff2)
     {
         diff2 = diff;
         while (true)
@@ -41,46 +43,51 @@ public static class GameProcesses
                         Console.WriteLine();
                         if (lennyelementP1.Count > 0)
                         {
-                            foreach (var fire in lennyelementP1.Where(fire => fire[1] != null && fire[1] == "Fire"))
+                            foreach (var fire in lennyelementP1.Where(fire => fire[1] == "Fire"))
                             {
                                 CConsole.Write($"{fire[0]:red}\t");
                             }
+
                             Console.WriteLine("\n");
-                            foreach (var water in lennyelementP1.Where(water => water[1] != null && water[1] == "Water"))
+                            foreach (var water in lennyelementP1.Where(water => water[1] == "Water"))
                             {
                                 CConsole.Write($"{water[0]:cyan}\t");
                             }
+
                             Console.WriteLine("\n");
-                            foreach (var snow in lennyelementP1.Where(snow => snow[1] != null && snow[1] == "Snow"))
+                            foreach (var snow in lennyelementP1.Where(snow => snow[1] == "Snow"))
                             {
                                 CConsole.Write($"{snow[0]:white}\t");
                             }
                         }
+
                         Console.WriteLine("\n");
                         Console.Write("Enemy lennys:");
                         Console.WriteLine();
                         if (lennyelementP2.Count > 0)
                         {
-                            foreach (var fire in lennyelementP2.Where(fire => fire[1] != null && fire[1] == "Fire"))
+                            foreach (var fire in lennyelementP2.Where(fire => fire[1] == "Fire"))
                             {
                                 CConsole.Write($"{fire[0]:red}\t");
                             }
+
                             Console.WriteLine("\n");
-                            foreach (var water in lennyelementP2.Where(water => water[1] != null && water[1] == "Water"))
+                            foreach (var water in lennyelementP2.Where(water => water[1] == "Water"))
                             {
                                 CConsole.Write($"{water[0]:cyan}\t");
                             }
+
                             Console.WriteLine("\n");
-                            foreach (var snow in lennyelementP2.Where(snow => snow[1] != null && snow[1] == "Snow"))
+                            foreach (var snow in lennyelementP2.Where(snow => snow[1] == "Snow"))
                             {
                                 CConsole.Write($"{snow[0]:white}\t");
                             }
                         }
+
                         pressedKey = Console.ReadKey().Key;
                         ifinside[1] = true;
-                        int temp = 0;
                         int number = 0;
-                        if (int.TryParse(pressedKey.ToString().Remove(0, 1), out temp))
+                        if (int.TryParse(pressedKey.ToString().Remove(0, 1), out int t))
                         {
                             number = int.Parse(pressedKey.ToString().Remove(0, 1));
                         }
@@ -127,7 +134,7 @@ public static class GameProcesses
 
                     break;
                 }
-                case ConsoleKey.Tab: 
+                case ConsoleKey.Tab:
                 {
                     diff2 = 0;
                     ConsoleKey pressedKeyDif;
@@ -135,18 +142,19 @@ public static class GameProcesses
                     Console.Write($"Current difficulty: {diff}" + '\n' +
                                   $"Choose between :" + '\n' +
                                   "1: Easy - Chance to get good response is 10%" + '\n' +
-                                  "2: Standard - Bot will play as good as he can" + '\n'+ 
+                                  "2: Standard - Bot will play as good as he can" + '\n' +
                                   "3: No chance to win. Bot has in hand all of card library");
-                    while (diff2 is not (1 or 2 or 3)) 
+                    while (diff2 is not (1 or 2 or 3))
                     {
                         pressedKeyDif = Console.ReadKey().Key;
-                        int temp=0;
-                        if (int.TryParse(pressedKeyDif.ToString().Remove(0, 1), out temp))
+                        if (int.TryParse(pressedKeyDif.ToString().Remove(0, 1), out int t))
                         {
                             diff2 = int.Parse(pressedKeyDif.ToString().Remove(0, 1));
                         }
+
                         diff = diff2;
                     }
+
                     break;
                 }
                 case ConsoleKey.Q:
@@ -159,9 +167,14 @@ public static class GameProcesses
                     {
                         Console.Write($"Turn number: {turnnum}\n");
                         Console.WriteLine();
-                        CConsole.Write(CompareCards(t[0], t[1])
-                            ? (FormattableString)$"{"You won this turn":yellow}"
-                            : (FormattableString)$"{"Enemy won this turn":red}");
+                        if (CompareCards(t[0], t[1]))
+                            CConsole.Write($"{"You won this turn":yellow}");
+
+                        else if (ExtendedFunc.SameCards(t[0], t[1]))
+                            CConsole.Write($"{"No one won this turn":gray}");
+
+                        else CConsole.Write($"{"Enemy won this turn":red}");
+
                         Console.WriteLine("");
                         Console.WriteLine();
                         Console.Write($"Your card:{new string(' ', 15)}Bot's card:");
@@ -169,6 +182,7 @@ public static class GameProcesses
                         turnnum++;
                         ShowCards(t);
                     }
+
                     Console.ReadKey();
                     break;
                 }
@@ -179,6 +193,7 @@ public static class GameProcesses
                         Console.Write($"Lenny: {obj[0]} Element: {obj[1]}" + "\n");
                         Console.WriteLine();
                     }
+
                     Console.ReadKey();
                     break;
                 }
@@ -188,6 +203,7 @@ public static class GameProcesses
             }
         }
     }
+
     public static void OutputBox(bool winner)
     {
         int boxsize = 120;
@@ -358,6 +374,7 @@ public static class GameProcesses
         Console.WriteLine($"{centreblank}{boxBot}");
         Console.ResetColor();
     }
+/*
     private static void CheatBox()
     {
         int boxsize = 120;
@@ -401,6 +418,7 @@ public static class GameProcesses
         Console.WriteLine($"{centreblank}{boxBot}");
         Console.ResetColor();
     }
+*/
 
     public static void GetCardFromDeck(List<Card> deck, List<Card> hand)
     {
@@ -597,7 +615,6 @@ public static class GameProcesses
 
         Console.WriteLine();
     }
-
     private static void ShowCards(List<Card> hand)
     {
         Console.OutputEncoding = Encoding.UTF8;
@@ -794,61 +811,5 @@ public static class GameProcesses
             Console.WriteLine();
         }
     }
-    /*private static void OutputBox(List<string> lennysP1 , List<string> lennysP2)
-    {
-        //Console.Write("BoxSize: ");
-        int[] counterP1 = new int[17], counterP2 = new int[17];
-        byte pozP1 = 0,pozP2 = 0;
-        counterP2[pozP2] = lennysP1.Count;
-        pozP2++;
-        int boxsize = 120;
-        Console.Clear();
-        Console.ForegroundColor = ConsoleColor.DarkBlue;
-        string boxTop = new string('_', boxsize);
-        string boxBot = new string('-', boxsize);
-        StringBuilder borders = new StringBuilder(new string(' ', boxsize), boxsize)
-        {
-            [0] = '|',
-            [boxsize-1] = '|'
-        };
-        string centreblank = new string(' ',60);
-        for (int i = 0; i < 20; i++)
-        {
-            Console.WriteLine();
-        }
-        string[] lennyArrP1 = new string[lennysP1.Count];
-        for (int i = 0; i < lennysP1.Count; i++)
-        {
-            lennyArrP1[i] = lennysP1[i];
-        }
-        string[] lennyArrP2 = new string[lennysP2.Count];
-        for (int i = 0; i < lennysP2.Count; i++)
-        {
-            lennyArrP2[i] = lennysP2[i];
-        }
-        Console.WriteLine($"{centreblank}{boxTop}");
-        Console.WriteLine($"{centreblank}{borders}");
-        CConsole.WriteLine($"{centreblank}|{new string(' ', boxsize / 2 - 12)}{"Lennys in bag":green}{new string(' ', boxsize / 2 - 4)}|");
-        for (int i = 0; i < 13; i++)
-        {
-            if ((i is 4 or 6 or 8 or 10 && lennyArrP1.Length != 0) &&
-                     (i is 4 or 6 or 8 or 10 && lennyArrP2.Length != 0))
-                CConsole.WriteLine(
-                    $"{centreblank}|{new string(' ', 5)}{lennyArrP1[(i - 4) / 2]:green}{new string(' ', boxsize / 2 - 5 - lennyArrP1.Length - 1)}|{new string(' ', boxsize / 4)}{lennyArrP2[(i - 4) / 2]:green}{new string(' ', boxsize / 2 - boxsize / 4 -lennyArrP2.Length-2-5- lennyArrP1.Length)}|");
-            
-            if (i is 4 or 6 or 8 or 10 && lennyArrP1.Length != 0)
-            {
-                CConsole.WriteLine($"{centreblank}|{new string(' ',5)}{lennyArrP1[(i-4)/2]:green}{new string(' ',boxsize-lennysP1[(i-4)/2].Length-boxsize/3-5)}|");
-            }
-            else if(i == lennyArrP2.Length && lennyArrP2.Length != 0)
-                CConsole.WriteLine($"{centreblank}|{new string(' ',boxsize*3/4)}{lennyArrP2[(i-4)/2]:green}{new string(' ',boxsize-boxsize*3/4-lennysP2[(i-4)/2].Length)}|");
-            else
-                Console.WriteLine($"{centreblank}{borders}");
-        }
-                
-        Console.WriteLine($"{centreblank}{boxBot}");
-        Console.ResetColor();
-        Console.ReadKey();
-    }*/
 }
     

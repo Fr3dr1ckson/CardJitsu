@@ -1,6 +1,7 @@
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
-using static GameScript.GameProcesses;
+using GameScript.Game;
+using static GameScript.Game.GameProcesses;
 namespace GameScript;
 
 public static class ExtendedFunc
@@ -47,14 +48,6 @@ public static class ExtendedFunc
             }
         }
         return unilen.Count;
-    }
-
-    public static List<string[]> SortedLennys(List<string[]> lennyelement)
-    {
-        List<string[]> sortedlenny = lennyelement.Where(fire => fire.Contains("Fire")).ToList();
-        sortedlenny.AddRange(lennyelement.Where(water => water.Contains("Water")));
-        sortedlenny.AddRange(lennyelement.Where(snow => snow.Contains("Snow")));
-        return sortedlenny;
     }
     public class Program1
     {

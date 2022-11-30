@@ -1,11 +1,10 @@
-﻿using GameScript;
+﻿using GameScript.Game;
 using static GameScript.ExtendedFunc;
-using static GameScript.BotActions;
-using static GameScript.GameProcesses;
-using static GameScript.DeckActions;
+using static GameScript.Game.BotActions;
+using static GameScript.Game.GameProcesses;
+using static GameScript.Game.DeckActions;
+using GameScript.Useful_Functions;
 
-
-Console.SetWindowSize(Console.LargestWindowWidth, Console.LargestWindowHeight);
 Program1.ShowWindow(Program1.ThisConsole, Program1.MAXIMIZE);
     #region StartText
 
@@ -28,30 +27,10 @@ Program1.ShowWindow(Program1.ThisConsole, Program1.MAXIMIZE);
                       "Once players have an opponent, they will be taken to the arena, and will bow to each other. Both players have 20 seconds to choose a card. If they fail to choose a card, one will automatically be selected when the timer reaches zero" +
                       '\n' +
                       "Once both players have chosen a card, they are revealed. The winner keeps the card to help make a set. Remember that:");
-    Console.Write('\u2022');
-    Console.ForegroundColor = ConsoleColor.Red;
-    Console.Write(" Fire");
-    Console.ForegroundColor = ConsoleColor.Gray;
-    Console.Write(" beats");
-    Console.ForegroundColor = ConsoleColor.White;
-    Console.Write(" Snow " + '\n');
-    Console.ForegroundColor = ConsoleColor.Gray;
-    Console.Write('\u2022');
-    Console.ForegroundColor = ConsoleColor.White;
-    Console.Write(" Snow");
-    Console.ForegroundColor = ConsoleColor.Gray;
-    Console.Write(" beats");
-    Console.ForegroundColor = ConsoleColor.DarkBlue;
-    Console.Write(" Water " + '\n');
-    Console.ForegroundColor = ConsoleColor.Gray;
-    Console.Write('\u2022');
-    Console.ForegroundColor = ConsoleColor.DarkBlue;
-    Console.Write(" Water");
-    Console.ForegroundColor = ConsoleColor.Gray;
-    Console.Write(" beats");
-    Console.ForegroundColor = ConsoleColor.Red;
-    Console.Write(" Fire" + '\n');
-    Console.ResetColor();
+    
+    CConsole.Write($"\n\u2022 {"Fire":red} beats {"Snow":white}\n");
+    CConsole.Write($"\u2022 {"Water":cyan} beats {"Fire":red}\n");
+    CConsole.Write($"\u2022 {"Snow":white} beats {"Water":cyan}\n");
     Console.Write('\n' +
                   "However, in the event of similar types of cards being played, the card with the highest number will win. If the numbers also matched, a draw will happen." +
                   '\n' +
@@ -88,7 +67,6 @@ Program1.ShowWindow(Program1.ThisConsole, Program1.MAXIMIZE);
             var cardhistory = new List<List<Card>>();
             var lennyElementP1 = new List<string[]>();
             var lennyElementP2 = new List<string[]>();
-            var wincheck = 0;
             bool winner = true;
             while (gameison)
             {
@@ -128,12 +106,12 @@ Program1.ShowWindow(Program1.ThisConsole, Program1.MAXIMIZE);
                 if (winner)
                 {
                     OutputBox(winner);
-                    Thread.Sleep(5000);
+                    Thread.Sleep(1500);
                 }
                 else
                 {
                     OutputBox(winner);
-                    Thread.Sleep(5000);
+                    Thread.Sleep(1500);
                 }
             }
             EndBox();
@@ -142,7 +120,6 @@ Program1.ShowWindow(Program1.ThisConsole, Program1.MAXIMIZE);
             {
                 Environment.Exit(0);
             }
-
             gameison = true;
         }
     }

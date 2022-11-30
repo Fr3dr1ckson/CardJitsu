@@ -1,6 +1,8 @@
 using System.Runtime.InteropServices;
 using System.Text;
 
+namespace GameScript.Useful_Functions;
+
 public static class PowerShellUtils
 {
     public static bool IsCurrentProcessRunningFromPowerShellIse()

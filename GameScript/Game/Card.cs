@@ -1,4 +1,6 @@
-namespace GameScript;
+using GameScript.Useful_Functions;
+
+namespace GameScript.Game;
 
 public class Card
 {

@@ -1,11 +1,13 @@
 
-namespace GameScript;
+using GameScript.Useful_Functions;
 
-using static GameScript.GameProcesses;
+namespace GameScript.Game;
+
+using static GameProcesses;
 
 public static class BotActions
 {
-    public static Card BotTurn(int difficulty,Card playercard,List<Card> usedcards,List<string> usedLennys = null, List<Card> deck = null, List<Card> hand = null )
+    public static Card BotTurn(int difficulty,Card playercard,List<Card> usedcards,List<string> usedLennys = null!, List<Card> deck = null!, List<Card> hand = null! )
     {
         var random = new Random();
         string[] goodTurn = new string[10];
@@ -24,7 +26,7 @@ public static class BotActions
                     {
                         if (ExtendedFunc.HaveWinningCard(hand, playercard))
                         {
-                            Thread.Sleep(3000);
+                            Thread.Sleep(2000);
                             hand.Remove(botcard);
                             GetCardFromDeck(deck,hand);
                             CardResult(botcard,playercard);
@@ -45,7 +47,7 @@ public static class BotActions
                 {
                     if (ExtendedFunc.HaveWinningCard(hand, playercard))
                     {
-                        Thread.Sleep(3000);
+                        Thread.Sleep(2000);
                         hand.Remove(botcard);
                         GetCardFromDeck(deck,hand);
                         CardResult(botcard,playercard);
@@ -68,16 +70,17 @@ public static class BotActions
         return hand[0];
     }
 
-    private static void CardResult(Card botcard, Card playercard = null)
+    private static void CardResult(Card botcard, Card playercard = null!)
     {
         Console.WriteLine();
-        if(!(playercard==null) && CompareCards(playercard, botcard) && !ExtendedFunc.SameCards(playercard,botcard))
+        if(!(playercard==null) && CompareCards(playercard, botcard))
             CConsole.Write($"{"You Won!":yellow}");
+        else if (playercard != null && ExtendedFunc.SameCards(playercard,botcard)) CConsole.Write($"{"Tie!":gray}");
         else CConsole.Write($"{"Bot Won!":red}");
         Console.WriteLine();
         Console.ResetColor();
         ShowCardinHand(botcard);
         Console.WriteLine();
-        Thread.Sleep(3000);
+        Thread.Sleep(2000);
     }
 }

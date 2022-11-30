@@ -9,6 +9,7 @@
 
     <ItemGroup>
       <Compile Remove="SashaLab.cs" />
+      <Compile Remove="Addible Functions\CConsole.cs" />
     </ItemGroup>
 
 </Project>
