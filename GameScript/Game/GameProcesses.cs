@@ -1,5 +1,7 @@
+using System.Runtime.CompilerServices;
 using System.Text;
 using GameScript.Useful_Functions;
+using static System.ConsoleKey;
 
 namespace GameScript.Game;
 
@@ -29,7 +31,7 @@ public static class GameProcesses
             ConsoleKey pressedKey = Console.ReadKey().Key;
             switch (pressedKey)
             {
-                case ConsoleKey.E: //Hand Showcase
+                case E: //Hand Showcase
                 {
                     bool[] ifinside = { true, true };
                     while (ifinside[0])
@@ -94,18 +96,18 @@ public static class GameProcesses
 
                         switch (pressedKey)
                         {
-                            case ConsoleKey.R:
+                            case R:
                             {
                                 Console.Clear();
                                 ifinside[0] = false;
                                 break;
                             }
-                            case ConsoleKey.D1:
-                            case ConsoleKey.D2:
-                            case ConsoleKey.D3:
-                            case ConsoleKey.D4:
-                            case ConsoleKey.D5:
-                            case ConsoleKey.D6:
+                            case D1:
+                            case D2:
+                            case D3:
+                            case D4:
+                            case D5:
+                            case D6:
                             {
                                 while (ifinside[1])
                                 {
@@ -116,9 +118,9 @@ public static class GameProcesses
                                     Console.WriteLine();
                                     switch (pressedKey)
                                     {
-                                        case ConsoleKey.Y:
+                                        case Y:
                                             return hand[number - 1];
-                                        case ConsoleKey.N:
+                                        case N:
                                             ifinside[1] = false;
                                             break;
                                         default:
@@ -134,7 +136,7 @@ public static class GameProcesses
 
                     break;
                 }
-                case ConsoleKey.Tab:
+                case Tab:
                 {
                     diff2 = 0;
                     ConsoleKey pressedKeyDif;
@@ -157,7 +159,7 @@ public static class GameProcesses
 
                     break;
                 }
-                case ConsoleKey.Q:
+                case Q:
                 {
                     if (cardhistory.Count == 0)
                         break;
@@ -182,28 +184,80 @@ public static class GameProcesses
                         turnnum++;
                         ShowCards(t);
                     }
-
                     Console.ReadKey();
                     break;
                 }
-                case ConsoleKey.O:
+                case NumPad7:
                 {
-                    foreach (var obj in lennyelementP1)
+                    var ifinside = true;
+                    Console.Clear();
+                    while (ifinside)
                     {
-                        Console.Write($"Lenny: {obj[0]} Element: {obj[1]}" + "\n");
-                        Console.WriteLine();
+                        FuncBox();
+                        var pressedkey = Console.ReadKey().Key;
+                        switch (pressedkey)
+                        {
+                            case E:
+                                Console.Clear();
+                                Card p1;
+                                Card p2;
+                                p1 = ExtendedFunc.CreateCard();
+                                p2 = ExtendedFunc.CreateCard();
+                                Console.Clear();
+                                ShowCardinHand(p1);
+                                Console.WriteLine();
+                                CardResult(p1, p2);
+                                break;
+                            case R:
+                                ifinside = false;
+                                break;
+                        }
                     }
-
-                    Console.ReadKey();
                     break;
                 }
-                case ConsoleKey.L:
+                case NumPad8:
+                    Console.Write("Choose OutputBox:" + '\n' +
+                                  "1: WinBox" + '\n' +
+                                  "2: LoseBox" + '\n' +
+                                  "3: FuncBox" + '\n' +
+                                  "4: EndBox" + '\n');
+                    ConsoleKey pressKey = Console.ReadKey().Key;
+                    switch (pressKey)
+                    {
+                        case D1:
+                            OutputBox(true);
+                            break;
+                        case D2:
+                            OutputBox(false);
+                            break;
+                        case D3:
+                            FuncBox();
+                            break;
+                        case D4:
+                            EndBox();
+                            break;
+                    }
+                    Console.ReadKey();
+                    break;
+                case Escape:
                     Environment.Exit(0);
                     break;
             }
         }
     }
-
+    private static void CardResult(Card p1Card, Card p2Card )
+    { 
+        Console.WriteLine();
+        if(CompareCards(p1Card, p2Card))
+            CConsole.Write($"{"Player I Won!":blue}");
+        else if (ExtendedFunc.SameCards(p1Card,p2Card)) CConsole.Write($"{"Tie!":gray}");
+        else CConsole.Write($"{"Player II Won!":red}");
+        Console.WriteLine();
+        Console.ResetColor();
+        ShowCardinHand(p2Card);
+        Console.WriteLine();
+        Thread.Sleep(2000);
+    }
     public static void OutputBox(bool winner)
     {
         int boxsize = 120;
@@ -225,9 +279,9 @@ public static class GameProcesses
             }
 
             string press = "You Win!";
-            Console.Write($"{centreblank}{boxTop}");
+            Console.WriteLine($"{centreblank}{boxTop}");
             CConsole.WriteLine(
-                $"{new string(' ', 117)}|{new string(' ', boxsize / 2 + 1)}{new string(' ', boxsize / 2 - 3)}|");
+                $"{centreblank}|{new string(' ', boxsize / 2 + 1)}{new string(' ', boxsize / 2 - 3)}|");
             for (int i = 0; i < 14; i++)
             {
                 if (i is 6)
@@ -259,9 +313,9 @@ public static class GameProcesses
             }
 
             string press = "You lost";
-            Console.Write($"{centreblank}{boxTop}");
+            Console.WriteLine($"{centreblank}{boxTop}");
             CConsole.WriteLine(
-                $"{new string(' ', 117)}|{new string(' ', boxsize / 2 + 1)}{new string(' ', boxsize / 2 - 3)}|");
+                $"{centreblank}|{new string(' ', boxsize / 2 + 1)}{new string(' ', boxsize / 2 - 3)}|");
             for (int i = 0; i < 14; i++)
             {
                 if (i is 8)
@@ -277,7 +331,47 @@ public static class GameProcesses
             Console.ResetColor();
         }
     }
+    private static void FuncBox()
+    {
+        int boxsize = 120;
+        Console.Clear();
+        Console.ForegroundColor = ConsoleColor.Green;
+        string boxTop = new string('_', boxsize);
+        string boxBot = new string('-', boxsize);
+        StringBuilder borders = new StringBuilder(new string(' ', boxsize), boxsize)
+        {
+            [0] = '|',
+            [boxsize - 1] = '|'
+        };
+        string centreblank = new string(' ', 60);
+        for (int i = 0; i < 20; i++)
+        {
+            Console.WriteLine();
+        }
 
+        string[] press =
+        {
+            "1: Press E, to check card fights",
+            "2: Press R, to return"
+        };
+        Console.WriteLine($"{centreblank}{boxTop}");
+        Console.WriteLine($"{centreblank}{borders}");
+        CConsole.WriteLine(
+            $"{centreblank}|{new string(' ', boxsize / 2 - 3)}{"Debug":red}{new string(' ', boxsize / 2 - 4)}|");
+        for (int i = 0; i < 11+press.Length; i++)
+        {
+            if (i >= 4 && i%2==0 && i<3+press.Length*2)
+            {
+                CConsole.WriteLine(
+                    $"{centreblank}|{new string(' ', boxsize / 3 + 3)}{press[(i - 4) / 2]:magenta}{new string(' ', boxsize - press[(i - 4) / 2].Length - boxsize / 3 - 5)}|");
+            }
+            else
+                Console.WriteLine($"{centreblank}{borders}");
+        }
+
+        Console.WriteLine($"{centreblank}{boxBot}");
+        Console.ResetColor();
+    }
     private static void OutputBox()
     {
         int boxsize = 120;
@@ -301,7 +395,7 @@ public static class GameProcesses
             "1: Press E, to check your hand",
             "2: Press Tab, to change difficulty",
             "3: Press Q, to get fight history",
-            "4: Press L, to quit"
+            "4: Press Esc, to quit"
         };
         Console.WriteLine($"{centreblank}{boxTop}");
         Console.WriteLine($"{centreblank}{borders}");

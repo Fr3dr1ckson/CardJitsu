@@ -29,6 +29,36 @@ public static class ExtendedFunc
         return hand.Any(botcard => CompareCards(card,botcard) && !SameCards(card,botcard));
     }
 
+    public static Card CreateCard()
+    {
+        string element = " ";
+        string lenny = " ";
+        Console.Write("Enter card power: ");
+        int power = int.Parse(Console.ReadLine());
+        Console.WriteLine('\n' + "Chose card lenny: " + '\n' +
+                          $"1: {Card.lenny[0]}\n" +$"2: {Card.lenny[1]}\n"+$"3: {Card.lenny[2]}\n"+$"4: {Card.lenny[3]}");
+        ConsoleKey keypress = Console.ReadKey().Key;
+        lenny = keypress switch
+        {
+            ConsoleKey.D1 => Card.lenny[0],
+            ConsoleKey.D2 => Card.lenny[1],
+            ConsoleKey.D3 => Card.lenny[2],
+            ConsoleKey.D4 => Card.lenny[3],
+            _ => lenny
+        };
+        Console.WriteLine('\n' + "Chose card element: " + '\n' +
+                          $"1: {Card.ElementList[0]}\n" +$"2: {Card.ElementList[1]}\n"+$"3: {Card.ElementList[2]}");
+        keypress = Console.ReadKey().Key;
+        element = keypress switch
+        {
+            ConsoleKey.D1 => Card.ElementList[0],
+            ConsoleKey.D2 => Card.ElementList[1],
+            ConsoleKey.D3 => Card.ElementList[2],
+            _ => lenny
+        };
+        return new Card(power, element, lenny);
+    }
+
     public static int UniqueLenny(List<string> lennys)
     {
         List<string> unilen = lennys;

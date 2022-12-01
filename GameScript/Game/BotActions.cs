@@ -69,13 +69,12 @@ public static class BotActions
         }
         return hand[0];
     }
-
-    private static void CardResult(Card botcard, Card playercard = null!)
+    private static void CardResult(Card botcard, Card playercard)
     {
         Console.WriteLine();
-        if(!(playercard==null) && CompareCards(playercard, botcard))
+        if(CompareCards(playercard, botcard))
             CConsole.Write($"{"You Won!":yellow}");
-        else if (playercard != null && ExtendedFunc.SameCards(playercard,botcard)) CConsole.Write($"{"Tie!":gray}");
+        else if (ExtendedFunc.SameCards(playercard,botcard)) CConsole.Write($"{"Tie!":gray}");
         else CConsole.Write($"{"Bot Won!":red}");
         Console.WriteLine();
         Console.ResetColor();
