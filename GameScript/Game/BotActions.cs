@@ -7,7 +7,7 @@ using static GameProcesses;
 
 public static class BotActions
 {
-    public static Card BotTurn(int difficulty,Card playercard,List<Card> usedcards,List<string> usedLennys = null!, List<Card> deck = null!, List<Card> hand = null! )
+    public static Card BotTurn(int difficulty,Card playerCard,List<Card> usedcards,List<string> usedLennys = null!, Player bot  = null! )
     {
         var random = new Random();
         string[] goodTurn = new string[10];
@@ -22,52 +22,52 @@ public static class BotActions
                 }
                 if (goodTurn[random.Next(0, goodTurn.Length-1)] == "clever")
                 {
-                    foreach (var botcard in hand)
+                    foreach (var botcard in bot.Hand)
                     {
-                        if (ExtendedFunc.HaveWinningCard(hand, playercard))
+                        if (ExtendedFunc.HaveWinningCard(bot.Hand, playerCard))
                         {
                             Thread.Sleep(2000);
-                            hand.Remove(botcard);
-                            GetCardFromDeck(deck,hand);
-                            CardResult(botcard,playercard);
+                            bot.Hand.Remove(botcard);
+                            bot.GetCard();
+                            CardResult(botcard,playerCard);
                             return botcard;
                         }
-                        CardResult(botcard,playercard);
-                        return hand[random.Next(0, 6)];
+                        CardResult(botcard,playerCard);
+                        return bot.Hand[random.Next(0, 6)];
                     }
                 }
-                foreach (var botcard in hand.Where(botcard => CompareCards(playercard, botcard)&& !ExtendedFunc.SameCards(playercard,botcard)))
+                foreach (var botcard in bot.Hand.Where(botcard => CompareCards(playerCard, botcard)&& !ExtendedFunc.SameCards(playerCard,botcard)))
                 {
-                    CardResult(botcard,playercard);
+                    CardResult(botcard,playerCard);
                     return botcard;
                 }
                 break;
             case 2:
-                foreach (var botcard in hand)
+                foreach (var botcard in bot.Hand)
                 {
-                    if (ExtendedFunc.HaveWinningCard(hand, playercard))
+                    if (ExtendedFunc.HaveWinningCard(bot.Hand, playerCard))
                     {
                         Thread.Sleep(2000);
-                        hand.Remove(botcard);
-                        GetCardFromDeck(deck,hand);
-                        CardResult(botcard,playercard);
+                        bot.Hand.Remove(botcard);
+                        bot.GetCard();
+                        CardResult(botcard,playerCard);
                         return botcard;
                     }
-                    CardResult(botcard,playercard);
-                    return hand[random.Next(0, 6)];
+                    CardResult(botcard,playerCard);
+                    return bot.Hand[random.Next(0, 6)];
                 }
                 break;
             case 3:
-                foreach (var botcard in Card.CardLib.Where(botcard => CompareCards(botcard,playercard) && !ExtendedFunc.DeckContains(usedcards,botcard) && !usedLennys.Contains(botcard.Lenny)))
+                foreach (var botcard in Card.CardLib.Where(botcard => CompareCards(botcard,playerCard) && !ExtendedFunc.DeckContains(usedcards,botcard) && !usedLennys.Contains(botcard.Lenny.value)))
                 {
                         usedcards.Add(botcard);
-                        usedLennys.Add(botcard.Lenny);
-                        CardResult(botcard,playercard);
+                        usedLennys.Add(botcard.Lenny.value);
+                        CardResult(botcard,playerCard);
                         return botcard;
                 }break;
             
         }
-        return hand[0];
+        return bot.Hand[0];
     }
     private static void CardResult(Card botcard, Card playercard)
     {

@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\onarg\\Documents\\GitHub\\GameScript\\GameScript\\GameScript.csproj",
+      "projectUniqueName": "C:\\Users\\onarg\\RiderProjects\\CardJitsu\\GameScript\\GameScript.csproj",
       "projectName": "GameScript",
-      "projectPath": "C:\\Users\\onarg\\Documents\\GitHub\\GameScript\\GameScript\\GameScript.csproj",
+      "projectPath": "C:\\Users\\onarg\\RiderProjects\\CardJitsu\\GameScript\\GameScript.csproj",
       "packagesPath": "C:\\Users\\onarg\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\onarg\\Documents\\GitHub\\GameScript\\GameScript\\obj\\",
+      "outputPath": "C:\\Users\\onarg\\RiderProjects\\CardJitsu\\GameScript\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\onarg\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -61,7 +61,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.402\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.102\\RuntimeIdentifierGraph.json"
       }
     }
   }

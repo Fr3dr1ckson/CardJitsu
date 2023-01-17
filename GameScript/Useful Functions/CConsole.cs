@@ -5,7 +5,7 @@ namespace GameScript.Useful_Functions;
 public class CConsole : IFormatProvider, ICustomFormatter
 {
     private const char ColorSeparator = ':';
-    private const char Separator = (char)65535; //non-printable character
+    private const char Separator = (char)65535;
 
     private static readonly Type CustomFormatterType;
     private static readonly Dictionary<string, ConsoleColor> Colors;

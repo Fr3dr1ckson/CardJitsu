@@ -4,35 +4,61 @@ namespace GameScript.Game;
 
 public class Card
 {
+    enum Abilities
+    {
+        None,
+        BlockFire,
+        BlockSnow,
+        BlockWater,
+        PowerPlus,
+        PowerMinus,
+        TheLowestWins,
+        DestroyFire,
+        DestroyWater,
+        DestroySnow
+    }
+
+    public static int AbilitiesLength()
+    {
+        return Enum.GetNames(typeof(Abilities)).Length;
+    }
     public static readonly string[] ElementList =
     {
         "Fire", "Water", "Snow"
     };
-    public static readonly string[] ElementListEmoji =
-    {
-        "🔥", "💧", "🕸️"
-    };
-    public static readonly string[] lenny =
-    {
-        "( ͡° ͜ʖ ͡°)", "( ͡♥ ͜ʖ ͡♥ )", "(▀̿Ĺ̯▀̿ ̿)", "(ᴗ ͜ʖ ᴗ)"
-    };
-    public string Element { get;}
-    public string Lenny { get;}
-    public int Power{ get;}
+    
+    public string? Element { get;}
+    public Lenny? Lenny { get;}
+    public int? Power{ get;}
 
-    public Card(int power, string element, string lenny)
+    Abilities Ability = Abilities.None;
+    public Card(int power, string element, string lenny, int abilityID = 0)
     {
         Power = power;
         Element = element;
-        Lenny = lenny;
+        Lenny.value = lenny;
+        Lenny.element = element;
+    }
+
+    public Card(int abilityID)
+    {
+        Ability = abilityID switch
+        {
+            1 => Abilities.DestroySnow,
+            2 => Abilities.BlockFire,
+            3 => Abilities.PowerMinus,
+            4 => Abilities.TheLowestWins,
+            5 => Abilities.PowerMinus,
+            _ => Ability
+        };
     }
     private static List<Card> GenerateLib()
     {
         List<Card> deck = new List<Card>();
-        string[] elementList = PowerShellUtils.IsCurrentProcessRunningFromPowerShellIse() ? ElementListEmoji : ElementList;
+        string[] elementList = ElementList;
         foreach (string element in elementList)
         {
-            foreach (string lenny in lenny)
+            foreach (string lenny in Lenny.Faces)
             {
                 for (int power = 1; power < 11; power++)
                 {
